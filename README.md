@@ -23,7 +23,7 @@ const fs = require('fs');
 let buffer = fs.readFileSync('path/to/crashreport');
 
 // create a CrashReport object. The constructor accepts both Buffer and Array ([number])
-let cp = new CrashReporter(buffer);
+let cp = new CrashReport(buffer);
 
 // get the decoded JSON
 let decoded = cp.toJSON();
