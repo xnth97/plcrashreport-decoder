@@ -46,7 +46,7 @@ class CrashReport {
    * @returns {string} Decoded crash report in formatted string.
    */
   toString() {
-    let decodedStr = '\n\nFormatted Crash Report\n\n';
+    let decodedStr = 'Formatted Crash Report\n\n';
     for (let key of ['systemInfo', 'applicationInfo', 'processInfo', 'machineInfo', 'signal']) {
       for (let k in this.decodedDict[key]) {
         if (k === 'processor') {
@@ -94,8 +94,6 @@ class CrashReport {
       let endAddress = baseAddress + size;
       decodedStr += `0x${baseAddress.toString(16)} - 0x${endAddress.toString(16)}\t\t${binaryDict['name']}\n`;
     }
-
-    decodedStr += '\n\n';
 
     return decodedStr;
   }
