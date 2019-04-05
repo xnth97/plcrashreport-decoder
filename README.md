@@ -22,7 +22,7 @@ const CrashReport = require('plcrashreport-decoder');
 const fs = require('fs');
 let buffer = fs.readFileSync('path/to/crashreport');
 
-// create a CrashReport object. The constructor accepts both Buffer and Array ([number])
+// create a CrashReport object. The constructor accepts Buffer, Array ([number]) and ArrayBuffer.
 let cp = new CrashReport(buffer);
 
 // get the decoded JSON
@@ -40,6 +40,20 @@ pl-decode example.plcrash -t json
 #### Parameters
 
 `-t`: Type of decoded crash report. Can be `string` or `json`.
+
+### Browser
+
+Include the [minified JavaScript file](dist/crashreport.min.js) in your HTML, and you will be able to use the `CrashReport` class.
+
+```html
+<script src="dist/crashreport.min.js"></script>
+```
+
+Please see [example.html](example.html) for details.
+
+## Build
+
+Run `npm run build` to build a minified UMD bundle.
 
 ## Acknowledgement
 

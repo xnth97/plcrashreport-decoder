@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Crash Report Decoder Example</title>
+</head>
+
+<body>
+  <script src="dist/crashreport.min.js"></script>
+
+  <div>
+    <input type="file" id="files" onchange="decodeCrashReport()" />
+    <p id="decoded" style="font-family:'Courier New', Courier, monospace"></p>
+  </div>
+
+  <script>
+    function decodeCrashReport() {
+      let file = document.getElementById('files').files[0];
+      let reader = new FileReader();
+      reader.readAsArrayBuffer(file);
+      reader.onload = function() {
+        let cp = new CrashReport(this.result);
+        let decoded = cp.toString();
+        document.getElementById('decoded').innerText = decoded;
+      }
+    }
+  </script>
+</body>
+</html>
