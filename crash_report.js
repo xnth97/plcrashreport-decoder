@@ -18,7 +18,7 @@ class CrashReport {
     }
 
     const crashReportHeaderLength = 8;
-    let buffer = this.dataBuffer.slice(crashReportHeaderLength, data.length);
+    let buffer = this.dataBuffer.slice(crashReportHeaderLength, this.dataBuffer.length);
     this.decoded = plcrash.CrashReport.decode(buffer);
     this.decodedDict = this.decoded.toJSON();
   }
