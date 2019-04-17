@@ -1,4 +1,5 @@
 const { plcrash } = require('./compiled');
+const path = require('path');
 
 /**
  * CrashReport class
@@ -67,7 +68,7 @@ class CrashReport {
       if (threadDict['crashed'] === true) {
         tmp += 'Thread crashed with registers\n\n';
         for (let reg of threadDict['registers']) {
-          tmp += `${reg['name']}\t\t0x${Number(reg['value']).toString(16)}\n`;
+          tmp += `${reg['name']}: 0x${Number(reg['value']).toString(16).padStart(16, '0')}\n`;
         }
         tmp += '\n';
       }
@@ -93,8 +94,10 @@ class CrashReport {
     for (let binaryDict of this.decodedDict['binaryImages']) {
       let baseAddress = Number(binaryDict['baseAddress']);
       let size = Number(binaryDict['size']);
-      let endAddress = baseAddress + size;
-      decodedStr += `0x${baseAddress.toString(16)} - 0x${endAddress.toString(16)}\t\t${binaryDict['name']}\n`;
+      let endAddress = baseAddress + size - 1;
+      let name = binaryDict['name'];
+      let basename = path.basename(name);
+      decodedStr += `0x${baseAddress.toString(16)} - 0x${endAddress.toString(16)}\t\t${basename}\t\t${name}\n`;
     }
 
     return decodedStr;
