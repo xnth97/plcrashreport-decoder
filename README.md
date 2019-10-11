@@ -23,10 +23,10 @@ const fs = require('fs');
 let buffer = fs.readFileSync('path/to/crashreport');
 
 // create a CrashReport object. The constructor accepts Buffer, Array ([number]) and ArrayBuffer.
-let cp = new CrashReport(buffer);
+let cr = new CrashReport(buffer);
 
 // get the decoded JSON
-let decoded = cp.toJSON();
+let decoded = cr.toJSON();
 ```
 
 ### CLI
@@ -39,7 +39,7 @@ pl-decode example.plcrash -t json
 
 #### Parameters
 
-`-t`: Type of decoded crash report. Can be `string` or `json`.
+`-f`: Format of decoded crash report. Can be `default`, `string` or `json`.
 
 ### Browser
 

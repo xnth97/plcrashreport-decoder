@@ -21,7 +21,6 @@ class CrashReport {
     const crashReportHeaderLength = 8;
     let buffer = this.dataBuffer.slice(crashReportHeaderLength, this.dataBuffer.length);
     this.decoded = plcrash.CrashReport.decode(buffer);
-    this.decodedDict = this.decoded.toJSON();
   }
 
   /**
@@ -42,27 +41,39 @@ class CrashReport {
    * @returns {object} Decoded crash report in JSON format.
    */
   toJSON() {
-    return this.decodedDict;
+    let decodedJson = this.decoded.toJSON();
+
+    for (let i = 0; i < decodedJson['binaryImages'].length; i ++) {
+      let binaryDict = decodedJson['binaryImages'][i];
+      let baseAddress = Number(binaryDict['baseAddress']);
+      let size = Number(binaryDict['size']);
+      let endAddress = baseAddress + size - 1;
+      decodedJson['binaryImages'][i]['baseAddress'] = `0x${baseAddress.toString(16)}`;
+      decodedJson['binaryImages'][i]['endAddress'] = `0x${endAddress.toString(16)}`;
+    }
+
+    return decodedJson;
   }
 
   /**
    * @returns {string} Decoded crash report in formatted string.
    */
   toString() {
+    let decodedDict = this.toJSON();
     let decodedStr = 'Formatted Crash Report\n\n';
     for (let key of ['systemInfo', 'applicationInfo', 'processInfo', 'machineInfo', 'signal']) {
-      for (let k in this.decodedDict[key]) {
+      for (let k in decodedDict[key]) {
         if (k === 'processor') {
-          decodedStr += `${k.padEnd(40)}${this.decodedDict[key]['processor']['type']}\n`;
+          decodedStr += `${k.padEnd(40)}${decodedDict[key]['processor']['type']}\n`;
         } else {
-          decodedStr += `${k.padEnd(40)}${this.decodedDict[key][k]}\n`;
+          decodedStr += `${k.padEnd(40)}${decodedDict[key][k]}\n`;
         }
       }
     }
 
     decodedStr += '\n\n';
 
-    for (let threadDict of this.decodedDict['threads']) {
+    for (let threadDict of decodedDict['threads']) {
       let tmp = `Thread ${threadDict['threadNumber']}\n\n`;
 
       if (threadDict['crashed'] === true) {
@@ -91,13 +102,12 @@ class CrashReport {
 
     decodedStr += 'Binary Images\n\n';
 
-    for (let binaryDict of this.decodedDict['binaryImages']) {
-      let baseAddress = Number(binaryDict['baseAddress']);
-      let size = Number(binaryDict['size']);
-      let endAddress = baseAddress + size - 1;
+    for (let binaryDict of decodedDict['binaryImages']) {
+      let baseAddress = binaryDict['baseAddress'];
+      let endAddress = binaryDict['endAddress'];
       let name = binaryDict['name'];
       let basename = path.basename(name);
-      decodedStr += `0x${baseAddress.toString(16)} - 0x${endAddress.toString(16)}\t\t${basename}\t\t${name}\n`;
+      decodedStr += `${baseAddress} - ${endAddress}\t\t${basename}\t\t${name}\n`;
     }
 
     return decodedStr;
