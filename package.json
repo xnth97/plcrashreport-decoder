@@ -23,7 +23,8 @@
     "macoscrashreport",
     "macoscrash",
     "ios",
-    "macos"
+    "macos",
+    "tvos"
   ],
   "author": "Yubo Qin",
   "license": "MIT",
@@ -36,7 +37,7 @@
     "protobufjs": "^6.8.8"
   },
   "devDependencies": {
-    "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9"
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
