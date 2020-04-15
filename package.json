@@ -34,10 +34,10 @@
   "homepage": "https://github.com/xnth97/plcrashreport-decoder#readme",
   "dependencies": {
     "commander": "^3.0.2",
-    "protobufjs": "^6.8.8"
+    "protobufjs": "^6.8.9"
   },
   "devDependencies": {
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11"
   }
 }
