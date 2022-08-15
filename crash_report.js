@@ -1,5 +1,4 @@
 const { plcrash } = require('./compiled');
-const path = require('path');
 
 /**
  * CrashReport class
@@ -106,7 +105,7 @@ class CrashReport {
       let baseAddress = binaryDict['baseAddress'];
       let endAddress = binaryDict['endAddress'];
       let name = binaryDict['name'];
-      let basename = path.basename(name);
+      let basename = name.split(/[\\/]/).pop();
       decodedStr += `${baseAddress} - ${endAddress}\t\t${basename}\t\t${name}\n`;
     }
 

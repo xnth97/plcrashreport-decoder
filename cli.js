@@ -27,7 +27,9 @@ if (!fs.existsSync(filepath)) {
 let buffer = fs.readFileSync(filepath);
 let crashReport = new CrashReport(buffer);
 
-const outputFormat = program.format.toLowerCase();
+const opts = program.opts();
+
+const outputFormat = opts.format.toLowerCase();
 if (outputFormat === 'default') {
   console.log(util.inspect(crashReport.toJSON(), { depth: null, colors: true, maxArrayLength: null }));
 } else if (outputFormat === 'string') {
